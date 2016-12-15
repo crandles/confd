@@ -19,7 +19,7 @@ type Client struct {
 }
 
 // NewEtcdClient returns an *etcdv3.Client with a connection to named machines.
-func NewEtcdClient(machines []string, cert, key, caCert string, basicAuth bool, username string, password string) (*Client, error) {
+func NewEtcdClient(machines []string, cert, key, caCert string, basicAuth bool, username string, password string, insecureSSL bool) (*Client, error) {
 	var cli *clientv3.Client
 	cfg := clientv3.Config{
 		Endpoints:   machines,
@@ -33,7 +33,7 @@ func NewEtcdClient(machines []string, cert, key, caCert string, basicAuth bool, 
 
 	tlsEnabled := false
 	tlsConfig := &tls.Config{
-		InsecureSkipVerify: false,
+		InsecureSkipVerify: insecureSSL,
 	}
 
 	if caCert != "" {

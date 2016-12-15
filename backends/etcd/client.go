@@ -19,7 +19,7 @@ type Client struct {
 }
 
 // NewEtcdClient returns an *etcd.Client with a connection to named machines.
-func NewEtcdClient(machines []string, cert, key, caCert string, basicAuth bool, username string, password string) (*Client, error) {
+func NewEtcdClient(machines []string, cert, key, caCert string, basicAuth bool, username string, password string, insecureSSL bool) (*Client, error) {
 	var c client.Client
 	var kapi client.KeysAPI
 	var err error
@@ -33,7 +33,7 @@ func NewEtcdClient(machines []string, cert, key, caCert string, basicAuth bool, 
 	}
 
 	tlsConfig := &tls.Config{
-		InsecureSkipVerify: false,
+		InsecureSkipVerify: insecureSSL,
 	}
 
 	cfg := client.Config{

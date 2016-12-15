@@ -29,6 +29,7 @@ var (
 	clientKey         string
 	confdir           string
 	config            Config // holds the global confd config.
+	insecureSSL       bool
 	interval          int
 	keepStageFile     bool
 	logLevel          string
@@ -63,6 +64,7 @@ type Config struct {
 	ClientCert   string   `toml:"client_cert"`
 	ClientKey    string   `toml:"client_key"`
 	ConfDir      string   `toml:"confdir"`
+	InsecureSSL  bool     `toml:"insecure_ssl"`
 	Interval     int      `toml:"interval"`
 	Noop         bool     `toml:"noop"`
 	Password     string   `toml:"password"`
@@ -90,6 +92,7 @@ func init() {
 	flag.StringVar(&confdir, "confdir", "/etc/confd", "confd conf directory")
 	flag.StringVar(&configFile, "config-file", "", "the confd config file")
 	flag.StringVar(&yamlFile, "file", "", "the YAML/JSON file to watch for changes")
+	flag.BoolVar(&insecureSSL, "insecure-ssl", false, "Accept any SSL certificate presented by backend servers. In this mode, TLS is susceptible to man-in-the-middle attacks.")
 	flag.IntVar(&interval, "interval", 600, "backend polling interval")
 	flag.BoolVar(&keepStageFile, "keep-stage-file", false, "keep staged files")
 	flag.StringVar(&logLevel, "log-level", "", "level which confd should log messages")
@@ -218,6 +221,7 @@ func initConfig() error {
 		ClientCert:   config.ClientCert,
 		ClientKey:    config.ClientKey,
 		BackendNodes: config.BackendNodes,
+		InsecureSSL:  config.InsecureSSL,
 		Password:     config.Password,
 		Scheme:       config.Scheme,
 		Table:        config.Table,

@@ -9,6 +9,7 @@ type Config struct {
 	ClientCert   string
 	ClientKey    string
 	BackendNodes []string
+	InsecureSSL  bool
 	Password     string
 	Scheme       string
 	Table        string
